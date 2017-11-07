@@ -36,8 +36,7 @@ module.exports = {
         .catch(next);
     });
   },
-
-  semua(req, res, next) {
+  driverList(req, res, next) {
     Driver.find({})
       .sort({ email: "desc" })
       .then(drivers => {
@@ -48,9 +47,13 @@ module.exports = {
     // req.query = to get the query string from url
     const { lng, lat } = req.query;
     Driver.geoNear(
-      { type: "Point", coordinates: [lng, lat] },
+      // we need to use parseFloat because the lng&lat from url query is a STRING,
+      // while what we need is Integer
+      { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] },
       // maxDistance = in meters
       { spherical: true, maxDistance: 200000 }
-    );
+    )
+      .then(drivers => res.send(drivers))
+      .catch(next);
   }
 };
