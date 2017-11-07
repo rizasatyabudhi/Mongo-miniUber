@@ -7,4 +7,5 @@ module.exports = app => {
   // to detect which driver is edited, we pass it in the URL,
   // rather than request in in the body
   app.put("/api/drivers/:id", DriversController.edit);
+  app.delete("/api/drivers/:id", DriversController.delete);
 };
