@@ -5,10 +5,25 @@ module.exports = {
     res.send({ hi: "there" });
   },
 
-  create(req, res) {
+  create(req, res, next) {
     const driverProps = req.body;
     Driver.create(driverProps)
       .then(driver => res.send(driver))
-      .catch((error = res.send(error)));
+      // whenever there is an error, "next" will be called
+      // and pass the error to the next middleware
+      .catch(next);
+  },
+
+  edit(req, res, next) {
+    // to get the id from the URL :id
+    const driverId = req.params.id;
+    const driverProps = req.body;
+
+    Driver.findByIdAndUpdate({ _id: driverId }, driverProps).then(() => {
+      // we need to find the driver that has just being updated
+      Driver.findById({ _id: driverId })
+        .then(driver => res.send(driver))
+        .catch(next);
+    });
   }
 };
