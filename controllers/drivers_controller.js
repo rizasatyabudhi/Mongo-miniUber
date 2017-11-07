@@ -35,5 +35,13 @@ module.exports = {
         .send(driver)
         .catch(next);
     });
+  },
+
+  semua(req, res, next) {
+    Driver.find({})
+      .sort({ email: "desc" })
+      .then(drivers => {
+        res.send({ drivers: drivers }).catch(next);
+      });
   }
 };
