@@ -43,5 +43,14 @@ module.exports = {
       .then(drivers => {
         res.send({ drivers: drivers }).catch(next);
       });
+  },
+  index(req, res, next) {
+    // req.query = to get the query string from url
+    const { lng, lat } = req.query;
+    Driver.geoNear(
+      { type: "Point", coordinates: [lng, lat] },
+      // maxDistance = in meters
+      { spherical: true, maxDistance: 200000 }
+    );
   }
 };
