@@ -35,7 +35,7 @@ describe("Drivers controller", () => {
     });
   });
 
-  it("PUT to /api/drivers/id edit an existing driver", done => {
+  it("PUT to /api/drivers/id can edit an existing driver", done => {
     const driver = new Driver({ email: "t@t.com", driving: false });
     driver.save().then(() => {
       request(app)
@@ -50,11 +50,11 @@ describe("Drivers controller", () => {
     });
   });
 
-  it("DELETE to /api/drivers/id delete an existing driver", done => {
+  it("DELETE to /api/drivers/id can delete an existing driver", done => {
     const driver = new Driver({ email: "a@a.com", driving: false });
     driver.save().then(() => {
       request(app)
-        .delete(`/api/drivers/${drivers._id}`)
+        .delete(`/api/drivers/${driver._id}`)
         .end(() => {
           Driver.findOne({ email: "a@a.com" }).then(driver => {
             assert(driver === null);
